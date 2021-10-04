@@ -10,8 +10,11 @@ public class BuiltInSound {
         this.id = id;
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
+    public void setChecked() {
+        checked = true;
+    }
+    public void setUnchecked() {
+        checked = false;
     }
 
     public boolean isChecked() {
