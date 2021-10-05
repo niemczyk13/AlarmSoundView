@@ -1,18 +1,31 @@
 package com.example.alarmsoundview.activity.selectsound;
 
+import com.example.alarmsoundview.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmBuiltInSoundData {
     //private static AlarmBuiltInSoundData alarmBuiltInSoundData;
     private List<BuiltInSound> sounds;
-    private int markedPosition;
+    private int markedPosition = 0;
 
-    public AlarmBuiltInSoundData(int soundPosition) {
+    public AlarmBuiltInSoundData(int soundId) {
         sounds = new ArrayList<>();
-        //TODO tutaj dodanie do listy utworów
+        sounds.add(new BuiltInSound("Pierwszy", R.raw.closer));
+        sounds.add(new BuiltInSound("Drugi", R.raw.creep));
 
-        markedPosition = soundPosition;
+        //TODO obliczenie pozycji na podstawie ID
+        if (soundId != 0) {
+            for (int i = 0; i < sounds.size(); i++) {
+                if (sounds.get(i).getId() == soundId) {
+                    markedPosition = i;
+                    break;
+                }
+            }
+        } else {
+            markedPosition = 0;
+        }
         sounds.get(markedPosition).setChecked();
     }
 

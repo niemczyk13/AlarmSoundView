@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         alarmSoundView = findViewById(R.id.alarm_sound_view);
         Sound sound = new Sound();
+        sound.setId(R.raw.creep);
         sound.setSoundName("Piosenka");
         sound.setUri("uri/urrri");
         sound.setPersonal(false);

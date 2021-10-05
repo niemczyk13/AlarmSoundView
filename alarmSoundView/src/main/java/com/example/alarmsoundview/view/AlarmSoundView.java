@@ -94,8 +94,10 @@ public class AlarmSoundView extends LinearLayout {
         Intent intent = new Intent(super.getContext(), SelectSoundActivity.class);
 
         Bundle bundle = new Bundle();
+        bundle.putInt("id", sound.getId());
         bundle.putString("uri", sound.getUri());
         bundle.putBoolean("is_personal", sound.isPersonal());
+        bundle.putString("name", sound.getName());
         intent.putExtra("data", bundle);
 
 

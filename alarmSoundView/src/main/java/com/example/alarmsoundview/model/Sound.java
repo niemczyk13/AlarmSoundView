@@ -1,9 +1,18 @@
 package com.example.alarmsoundview.model;
 
 public class Sound {
-    private String uri;
-    private String soundName;
-    private boolean isPersonal;
+    private int id = 0;
+    private String uri = "";
+    private String soundName = "";
+    private boolean isPersonal = false;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setUri(String uri) {
         this.uri = uri;
