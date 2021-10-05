@@ -30,4 +30,14 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
 
         finish();
     }
+
+    @Override
+    public void updateListView() {
+        //TODO
+    }
+
+    @Override
+    public void setResultAndFinish(Intent intent) {
+        //TODO
+    }
 }
