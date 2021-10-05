@@ -3,4 +3,5 @@
     <string name="alarm_sound">Dźwięk alarmu:</string>
     <string name="cancel">Anuluj</string>
     <string name="save">Zapisz</string>
+    <string name="author_unkown">Nieznany</string>
 </resources>
