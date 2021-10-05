@@ -1,4 +1,4 @@
-package com.example.alarmsoundview.activity.selectsound;
+package com.example.alarmsoundview.activity.sound.select;
 
 public class BuiltInSound {
     private boolean checked = false;

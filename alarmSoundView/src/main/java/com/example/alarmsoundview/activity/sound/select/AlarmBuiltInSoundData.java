@@ -1,4 +1,4 @@
-package com.example.alarmsoundview.activity.selectsound;
+package com.example.alarmsoundview.activity.sound.select;
 
 import com.example.alarmsoundview.R;
 

@@ -16,7 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 
 import com.example.alarmsoundview.R;
-import com.example.alarmsoundview.activity.selectsound.SelectSoundActivity;
+import com.example.alarmsoundview.activity.sound.select.SelectSoundActivity;
 import com.example.alarmsoundview.model.Sound;
 
 public class AlarmSoundView extends LinearLayout {
@@ -56,15 +56,22 @@ public class AlarmSoundView extends LinearLayout {
         activityResultLauncher = componentActivity.registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        soundName.setText(data.getStringExtra("name"));
-                        //TODO zapisanie obiektu Sound
-                        sound = new Sound();
-                        sound.setPersonal(data.getBooleanExtra("is_personal", false));
-                        sound.setUri(data.getStringExtra("uri"));
-                        sound.setSoundName(data.getStringExtra("sound_name"));
+                        getSoundFromActivityResult(result.getData().getBundleExtra("data"));
                     }
                 });
+    }
+
+    private void getSoundFromActivityResult(Bundle data) {
+        updateSoundName(data.getString("name"));
+        sound = new Sound();
+        sound.setId(data.getInt("id"));
+        sound.setPersonal(data.getBoolean("is_personal", false));
+        sound.setUri(data.getString("uri"));
+        sound.setName(data.getString("sound_name"));
+    }
+
+    private void updateSoundName(String name) {
+        soundName.setText(name);
     }
 
     private void addViewsToMainLinearLayout() {

@@ -18,17 +18,11 @@ public class Sound {
         this.uri = uri;
     }
 
-    public String getSoundName() {
-        return soundName;
-    }
-
-    public void setSoundName(String soundName) {
-        this.soundName = soundName;
-    }
-
     public void setPersonal(boolean personal) {
         isPersonal = personal;
     }
+
+    public void setName(String name) {this.soundName = name;}
 
     public String getName() {
         return soundName;

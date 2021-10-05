@@ -1,9 +1,12 @@
-package com.example.alarmsoundview.activity.selectsound;
+package com.example.alarmsoundview.activity.sound.select;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 
 import com.example.alarmsoundview.activity.BasePresenter;
+import com.example.alarmsoundview.activity.sound.select.AlarmBuiltInSoundData;
+import com.example.alarmsoundview.activity.sound.select.BuiltInSound;
+import com.example.alarmsoundview.activity.sound.select.SelectSoundContractMVP;
 import com.example.alarmsoundview.model.Sound;
 
 public class SelectSoundPresenter extends BasePresenter<SelectSoundContractMVP.View> implements SelectSoundContractMVP.Presenter {
@@ -86,8 +89,15 @@ public class SelectSoundPresenter extends BasePresenter<SelectSoundContractMVP.V
 
     @Override
     public void okButtonClick() {
-        //TODO tworzenie obiektu Sound i zwrócenie
+        //TODO tworzenie obiektu Sound i zwrócenie do view -- > view.finishActivity(sound);
+        //TODO obiekt Sound tworzony na podstawie aktualnie zatwierdzonego obiektu w bazie danych
         stopMusic();
+        Sound sound = new Sound();
+        sound.setId(markedSound.getId());
+        sound.setName(markedSound.getName());
+        sound.setPersonal(false);
+        sound.setUri("");
+        view.finishActivity(sound);
         //String id = Integer.toString(markedSound.getId());
         //Intent intent = createIntentAndAddArgument(id);
         //view.setResultAndFinish(intent);

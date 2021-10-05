@@ -1,12 +1,14 @@
-package com.example.alarmsoundview.activity.selectsound;
+package com.example.alarmsoundview.activity.sound.select;
 
 import android.content.Intent;
+
+import com.example.alarmsoundview.model.Sound;
 
 public interface SelectSoundContractMVP {
     interface View {
         void updateListView();
-        void setResultAndFinish(Intent intent);
         void onBackButtonPressed();
+        void finishActivity(Sound sound);
     }
 
     interface Presenter {

@@ -1,4 +1,4 @@
-package com.example.alarmsoundview.activity.selectsound;
+package com.example.alarmsoundview.activity.sound.select;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alarmsoundview.R;
+import com.example.alarmsoundview.activity.sound.select.AlarmBuiltInSoundData;
+import com.example.alarmsoundview.activity.sound.select.BuiltInSound;
+import com.example.alarmsoundview.activity.sound.select.SelectSoundActivity;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 

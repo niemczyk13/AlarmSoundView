@@ -1,6 +1,7 @@
-package com.example.alarmsoundview.activity.selectsound;
+package com.example.alarmsoundview.activity.sound.select;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +10,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.alarmsoundview.R;
+import com.example.alarmsoundview.activity.sound.personal.PersonalSoundActivity;
 import com.example.alarmsoundview.model.Sound;
 
 import butterknife.BindView;
@@ -38,6 +39,15 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         createSelectSoundPresenter();
         createAdapterAndAddInListView();
         addOnItemClickListenerToFileListView();
+        createActivityResultLauncher();
+    }
+
+    private void createActivityResultLauncher() {
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    //TODO co ma się wykonać po zwrocie z MySoundActivity
+
+        });
     }
 
     private void addBackArrow() {
@@ -55,7 +65,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         sound.setId(bundle.getInt("id"));
         sound.setPersonal(bundle.getBoolean("is_personal"));
         sound.setUri(bundle.getString("uri"));
-        sound.setSoundName(bundle.getString("name"));
+        sound.setName(bundle.getString("name"));
     }
 
     private void createSelectSoundPresenter() {
@@ -80,24 +90,32 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     }
 
     @Override
-    public void setResultAndFinish(Intent intent) {
-        //TODO
-         //intent = new Intent();
-        intent.putExtra("name",  " Liczba");
-        setResult(RESULT_OK, intent);
-
-
-        finish();
+    public void onBackButtonPressed() {
+        super.onBackPressed();
     }
 
     @Override
-    public void onBackButtonPressed() {
-        super.onBackPressed();
+    public void finishActivity(Sound sound) {
+        //TODO
+        this.sound = sound;
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", sound.getId());
+        bundle.putString("name", sound.getName());
+        bundle.putString("uri", sound.getUri());
+        bundle.putBoolean("is_personal", sound.isPersonal());
+
+        Intent intent = new Intent();
+        intent.putExtra("data", bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @OnClick(R.id.add_new_sound_text_view)
     public void addNewSoundTextViewClick(View view) {
         //TODO
+        Intent intent = new Intent(this, PersonalSoundActivity.class);
+        activityResultLauncher.launch(intent);
     }
 
     @OnClick(R.id.save_button)
