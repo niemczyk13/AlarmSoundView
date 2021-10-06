@@ -26,7 +26,6 @@ public class AlarmSoundView extends LinearLayout {
     private ComponentActivity componentActivity;
     private TextView description;
     private TextView soundName;
-    private AlarmSoundViewBuilder alarmSoundViewBuilder;
 
     public AlarmSoundView(Context context) {
         super(context);
@@ -56,6 +55,7 @@ public class AlarmSoundView extends LinearLayout {
         activityResultLauncher = componentActivity.registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
+                        assert result.getData() != null;
                         getSoundFromActivityResult(result.getData().getBundleExtra("data"));
                     }
                 });
@@ -86,7 +86,7 @@ public class AlarmSoundView extends LinearLayout {
     }
 
     private void createViews() {
-        alarmSoundViewBuilder = new AlarmSoundViewBuilder(super.getContext());
+        AlarmSoundViewBuilder alarmSoundViewBuilder = new AlarmSoundViewBuilder(super.getContext());
         description = alarmSoundViewBuilder.getDescriptionTextView();
         soundName = alarmSoundViewBuilder.getNameTextView();
     }
@@ -121,4 +121,7 @@ public class AlarmSoundView extends LinearLayout {
         soundName.setText(sound.getName());
     }
 
+    public Sound getSound() {
+        return sound;
+    }
 }

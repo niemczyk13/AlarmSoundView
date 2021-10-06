@@ -3,6 +3,7 @@ package com.example.alarmsoundview.activity.sound.personal;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -14,15 +15,17 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import com.example.alarmsoundview.R;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class MusicListAdapter extends BaseAdapter implements Filterable {
-    private Cursor cursor;
-    private Context context;
-    private LayoutInflater inflater;
-    private PlayButtonManager playButtonManager;
+    private final Cursor cursor;
+    private final Context context;
+    private final LayoutInflater inflater;
+    private final PlayButtonManager playButtonManager;
 
     public MusicListAdapter(Context context, Cursor cursor, PlayButtonManager playButtonManager) {
         this.context = context;
@@ -42,10 +45,11 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
     @Override
     public long getItemId(int position) { return position; }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
 
         cursor.moveToPosition(position);
 
@@ -62,17 +66,13 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("Range")
     private void setValuesInViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.author.setText(getAuthor());
         viewHolder.title.setText(cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.TITLE)));
         setImageResource(viewHolder, position);
-        viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playButtonManager.onClick(view);
-            }
-        });
+        viewHolder.playButton.setOnClickListener(playButtonManager::onClick);
     }
 
     private void setImageResource(ViewHolder viewHolder, int position) {
@@ -91,6 +91,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         return playButtonManager.getSoundId() != id;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("Range")
     private String getAuthor() {
         String author = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST));
@@ -109,7 +110,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         return null;
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         TextView title;
         TextView author;
         ImageButton playButton;

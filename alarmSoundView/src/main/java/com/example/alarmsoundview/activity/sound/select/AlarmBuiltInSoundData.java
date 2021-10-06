@@ -6,28 +6,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmBuiltInSoundData {
-    //private static AlarmBuiltInSoundData alarmBuiltInSoundData;
-    private List<BuiltInSound> sounds;
+    private final List<BuiltInSound> sounds = new ArrayList<>();
     private int markedPosition = 0;
 
     public AlarmBuiltInSoundData(int soundId) {
-        sounds = new ArrayList<>();
+        createSoundsList();
+        checkCheckedSound(soundId);
+    }
+
+    private void createSoundsList() {
         sounds.add(new BuiltInSound("Pierwszy", R.raw.closer));
         sounds.add(new BuiltInSound("Drugi", R.raw.creep));
+    }
 
-        //TODO obliczenie pozycji na podstawie ID
+    private void checkCheckedSound(int soundId) {
+        findMarkedPosition(soundId);
+        sounds.get(markedPosition).setChecked();
+    }
+
+    private void findMarkedPosition(int soundId) {
         if (soundId != 0) {
-            for (int i = 0; i < sounds.size(); i++) {
-                if (sounds.get(i).getId() == soundId) {
-                    markedPosition = i;
-                    break;
-                }
-            }
+            findMarkedPositionComparingId(soundId);
         } else {
             markedPosition = 0;
         }
-        sounds.get(markedPosition).setChecked();
     }
+
+    private void findMarkedPositionComparingId(int soundId) {
+        for (int i = 0; i < sounds.size(); i++) {
+            if (sounds.get(i).getId() == soundId) {
+                markedPosition = i;
+                break;
+            }
+        }
+    }
+
 
     public int getSize() {
         return sounds.size();

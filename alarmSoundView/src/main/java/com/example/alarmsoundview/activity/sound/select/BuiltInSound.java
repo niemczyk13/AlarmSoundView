@@ -2,8 +2,8 @@ package com.example.alarmsoundview.activity.sound.select;
 
 public class BuiltInSound {
     private boolean checked = false;
-    private String name;
-    private int id;
+    private final String name;
+    private final int id;
 
     public BuiltInSound(String name, int id) {
         this.name = name;

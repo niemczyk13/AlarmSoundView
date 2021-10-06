@@ -9,21 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alarmsoundview.R;
-import com.example.alarmsoundview.activity.sound.select.AlarmBuiltInSoundData;
-import com.example.alarmsoundview.activity.sound.select.BuiltInSound;
-import com.example.alarmsoundview.activity.sound.select.SelectSoundActivity;
-
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class SelectSoundAdapter extends BaseAdapter {
-    private Context context;
-    private AlarmBuiltInSoundData data;
-    private LayoutInflater inflater;
+    private final AlarmBuiltInSoundData data;
+    private final LayoutInflater inflater;
 
     public SelectSoundAdapter(SelectSoundActivity selectSoundActivity, AlarmBuiltInSoundData data) {
-        this.context = selectSoundActivity;
         this.data = data;
-        inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) ((Context) selectSoundActivity).getSystemService(LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -44,7 +38,7 @@ public class SelectSoundAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
 
         BuiltInSound sound = data.get(position);
 
@@ -74,7 +68,7 @@ public class SelectSoundAdapter extends BaseAdapter {
         }
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         ImageView check;
         TextView name;
 

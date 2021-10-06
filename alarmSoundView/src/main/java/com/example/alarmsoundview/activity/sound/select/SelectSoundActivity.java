@@ -1,11 +1,13 @@
 package com.example.alarmsoundview.activity.sound.select;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     private SelectSoundPresenter presenter;
     private SelectSoundAdapter adapter;
     private AlarmBuiltInSoundData data;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.built_in_sound_list_view)
     protected ListView soundListView;
 
@@ -45,12 +48,8 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     private void createActivityResultLauncher() {
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    //TODO co ma się wykonać po zwrocie z MySoundActivity
                     if (result.getResultCode() == RESULT_OK) {
-                        Bundle bundle = result.getData().getBundleExtra("data");
-                        bundle.putBoolean("is_personal", true);
-                        bundle.putInt("id", 0);
-
+                        Bundle bundle = addDataToBundle(result);
                         Intent intent = new Intent();
                         intent.putExtra("data", bundle);
                         setResult(RESULT_OK, intent);
@@ -60,8 +59,17 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         });
     }
 
+    private Bundle addDataToBundle(ActivityResult result) {
+        assert result.getData() != null;
+        Bundle bundle = result.getData().getBundleExtra("data");
+        bundle.putBoolean("is_personal", true);
+        bundle.putInt("id", 0);
+        return bundle;
+    }
+
     private void addBackArrow() {
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
@@ -89,9 +97,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     }
 
     private void addOnItemClickListenerToFileListView() {
-        soundListView.setOnItemClickListener((adapterView, view, position, l) -> {
-            presenter.itemClick(position);
-        });
+        soundListView.setOnItemClickListener((adapterView, view, position, l) -> presenter.itemClick(position));
     }
 
     @Override
@@ -106,7 +112,6 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
 
     @Override
     public void finishActivity(Sound sound) {
-        //TODO
         this.sound = sound;
 
         Bundle bundle = new Bundle();
@@ -121,18 +126,20 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         finish();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.add_new_sound_text_view)
     public void addNewSoundTextViewClick(View view) {
-        //TODO
         Intent intent = new Intent(this, PersonalSoundActivity.class);
         activityResultLauncher.launch(intent);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.save_button)
     public void okButtonClick(View view) {
         presenter.okButtonClick();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.cancel_button)
     public void cancelButtonClick(View view) {
         presenter.cancelButtonClick();

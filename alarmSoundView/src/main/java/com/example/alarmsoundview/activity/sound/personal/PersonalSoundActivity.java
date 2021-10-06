@@ -1,5 +1,6 @@
 package com.example.alarmsoundview.activity.sound.personal;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -7,6 +8,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,15 +28,18 @@ import android.widget.ListView;
 
 import com.example.alarmsoundview.R;
 
+@RequiresApi(api = Build.VERSION_CODES.R)
 public class PersonalSoundActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private MusicListAdapter adapter;
     private PlayButtonManager playButtonManager;
     private ActionBar actionBar;
     private String filter;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sounds_list_view)
     ListView filesListView;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.sound_search_view)
     SearchView searchView;
 
@@ -58,14 +63,14 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
                 filter = MediaStore.MediaColumns.TITLE + " LIKE '%" + query + "%' OR " + MediaStore.Audio.AlbumColumns.ARTIST + " LIKE '%" + query + "%'";
-                getSupportLoaderManager().restartLoader(1, null, PersonalSoundActivity.this);
+                LoaderManager.getInstance(PersonalSoundActivity.this).restartLoader(1, null, PersonalSoundActivity.this);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 filter = MediaStore.MediaColumns.TITLE + " LIKE '%" + newText + "%' OR " + MediaStore.Audio.AlbumColumns.ARTIST + " LIKE '%" + newText + "%'";
-                getSupportLoaderManager().restartLoader(1, null, PersonalSoundActivity.this);
+                LoaderManager.getInstance(PersonalSoundActivity.this).restartLoader(1, null, PersonalSoundActivity.this);
                 return false;
             }
         });
@@ -74,7 +79,7 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     }
     @SuppressLint("Range")
     private void showMusicList() {
-        LoaderManager.getInstance(this).initLoader(0, null, this);
+        LoaderManager.getInstance(this).initLoader(1, null, this);
 
         filesListView.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
             adapter.stopMusic();
@@ -120,7 +125,6 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //TODO DO DOPRACOWANIA
         adapter.stopMusic();
     }
 

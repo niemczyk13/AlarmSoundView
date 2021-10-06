@@ -1,5 +1,6 @@
 package com.example.alarmsoundview.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class AlarmSoundViewBuilder {
         name.setLayoutParams(params);
     }
 
+    @SuppressLint("RtlHardcoded")
     private LinearLayout.LayoutParams createNameTextViewParams() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.LEFT;
@@ -35,6 +37,7 @@ public class AlarmSoundViewBuilder {
         description.setLayoutParams(params);
     }
 
+    @SuppressLint("RtlHardcoded")
     private LinearLayout.LayoutParams createDescriptionTextViewParams() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.RIGHT;

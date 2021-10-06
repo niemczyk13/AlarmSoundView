@@ -16,7 +16,7 @@ import android.widget.ListView;
 import com.example.alarmsoundview.R;
 
 public class PlayButtonManager {
-    private Context context;
+    private final Context context;
     private Cursor cursor;
     private MediaPlayer mediaPlayer;
     private boolean playingSong = false;

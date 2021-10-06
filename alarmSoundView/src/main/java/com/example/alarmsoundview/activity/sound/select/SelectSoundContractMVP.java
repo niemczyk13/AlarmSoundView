@@ -1,7 +1,5 @@
 package com.example.alarmsoundview.activity.sound.select;
 
-import android.content.Intent;
-
 import com.example.alarmsoundview.model.Sound;
 
 public interface SelectSoundContractMVP {
