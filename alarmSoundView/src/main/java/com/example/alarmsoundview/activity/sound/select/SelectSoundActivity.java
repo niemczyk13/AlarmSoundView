@@ -46,6 +46,16 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     //TODO co ma się wykonać po zwrocie z MySoundActivity
+                    if (result.getResultCode() == RESULT_OK) {
+                        Bundle bundle = result.getData().getBundleExtra("data");
+                        bundle.putBoolean("is_personal", true);
+                        bundle.putInt("id", 0);
+
+                        Intent intent = new Intent();
+                        intent.putExtra("data", bundle);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
 
         });
     }

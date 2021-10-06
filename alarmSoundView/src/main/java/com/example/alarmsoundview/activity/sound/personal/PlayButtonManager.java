@@ -109,8 +109,10 @@ public class PlayButtonManager {
     }
 
     public void stopMusic() {
-        mediaPlayer.stop();
-        playingSong = false;
+        if (playingSong) {
+            mediaPlayer.stop();
+            playingSong = false;
+        }
     }
 
     public void setCursor(Cursor cursor) {

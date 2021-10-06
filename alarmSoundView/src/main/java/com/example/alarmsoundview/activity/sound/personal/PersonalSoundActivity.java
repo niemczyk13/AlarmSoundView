@@ -52,7 +52,7 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
         //playButtonManager.setContext(getApplicationContext());
         //playButtonManager.setCursor(cursor);
         showMusicList();
-/*
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -70,23 +70,51 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
             }
         });
 
- */
-    }
 
+    }
+    @SuppressLint("Range")
     private void showMusicList() {
-        getSupportLoaderManager().initLoader(1, null, this);
+        LoaderManager.getInstance(this).initLoader(0, null, this);
 
         filesListView.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
             adapter.stopMusic();
             cursor.moveToPosition(position);
-            @SuppressLint("Range") Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
+            Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
+
+            String name = createName();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("uri", uri.toString());
+            bundle.putString("name", name);
 
             Intent intent = new Intent();
-            intent.putExtra("uri", uri.toString());
+            intent.putExtra("data", bundle);
             setResult(RESULT_OK, intent);
             finish();
 
         });
+
+
+    }
+
+    @SuppressLint("Range")
+    private String createName() {
+        String author = getAuthor();
+        String title = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.TITLE));
+        if (author.length() != 0) {
+            return author + " - " + title;
+        } else {
+            return title;
+        }
+    }
+
+    @SuppressLint("Range")
+    private String getAuthor() {
+        String author = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST));
+        if (author.equalsIgnoreCase("<unknown>")) {
+            author = "";
+        }
+        return author;
     }
 
     @Override
@@ -104,7 +132,6 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        //Uri uri = Uri.parse("android.resource://" + getPackageName() + "/res/raw");
         CursorLoader cl =  new CursorLoader(this, uri, null, filter, null, null);
         cl.setSortOrder(MediaStore.MediaColumns.TITLE + " ASC" );
         return cl;

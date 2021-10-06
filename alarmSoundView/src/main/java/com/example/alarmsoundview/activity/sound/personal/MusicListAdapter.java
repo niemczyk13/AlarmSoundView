@@ -1,5 +1,6 @@
 package com.example.alarmsoundview.activity.sound.personal;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.BaseColumns;
@@ -61,6 +62,7 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         return view;
     }
 
+    @SuppressLint("Range")
     private void setValuesInViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.author.setText(getAuthor());
         viewHolder.title.setText(cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.TITLE)));
@@ -83,11 +85,13 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         }
     }
 
+    @SuppressLint("Range")
     private boolean theSongIsNotPlaying() {
         int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(BaseColumns._ID)));
         return playButtonManager.getSoundId() != id;
     }
 
+    @SuppressLint("Range")
     private String getAuthor() {
         String author = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST));
         if (author.equalsIgnoreCase("<unknown>")) {
